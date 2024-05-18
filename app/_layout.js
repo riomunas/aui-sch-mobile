@@ -1,13 +1,13 @@
+import { View, Text } from 'react-native'
 import React from 'react'
-import { Stack } from 'expo-router'
+import { Slot, Stack } from 'expo-router'
+import { AppContextProvider } from '../context/app-context'
 
-export default function AppLayout() {
+export default function RootLayout() {
+  console.log(">> RootLayout")
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'Index', headerTitleAlign: 'center', headerShown: false}} />
-      <Stack.Screen name="login" options={{ title: 'Login', headerTitleAlign: 'center', headerShown: false}} />
-      <Stack.Screen name="signup" options={{ title: 'Sign-up', headerTitleAlign: 'center', headerShown: false}} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false}} />
-    </Stack>
+    <AppContextProvider>
+      <Slot/>
+    </AppContextProvider>
   )
 }

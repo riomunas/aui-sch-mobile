@@ -1,11 +1,26 @@
 import { View, Text, SafeAreaView, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, router } from 'expo-router'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import globalStyle from '../constants/style'
+import { AuthProvider, useAuth } from '../context/AuthContext'
+import HomePage from './(tabs)/home'
 
 export default function LoginPage() {
+  const {token} = useAuth();
+  console.log({token})
+  return (
+    <>
+    {token.accessToken ? <HomePage /> :<Layout />}
+    </>
+  )
+}
+
+export const Layout = () => {
+  const {onLogin} = useAuth();
+  const [ username, setUsername ] = useState('');
+  const [ password, setPassword ] = useState(''); 
   return (
     <SafeAreaView style={[globalStyle.saveArea, { paddingHorizontal:20, justifyContent: 'flex-start'}]}>
       <View style={{ flexDirection: 'column', flex:1}}>
@@ -15,14 +30,21 @@ export default function LoginPage() {
         <View style={{flex:2 }}>
           <View style={{ marginBottom: 10, }}>
             <Text>User Name :</Text>
-            <Input placeholder="Username" />
+            <Input placeholder="Username" onChangeText={(text) => setUsername(text)} value={username} />
           </View>
           <View style={{ marginBottom: 10 }}>
             <Text>Password :</Text>
-            <Input placeholder="Password" secureTextEntry />
+            <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} />
           </View>
           <View style={{ marginBottom: 10 }}>
-            <Button onPress={() => {router.replace('(tabs)/home')}}>Login</Button>
+            <Button onPress={async () => {
+              const data = await onLogin(username, password);
+              if(data.error) {
+                alert(data.message);
+              } else {
+                router.replace('(tabs)/home');
+              }
+              }}>Login</Button>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Text>Not Registered?</Text> 
@@ -31,5 +53,5 @@ export default function LoginPage() {
         </View>
       </View>
     </SafeAreaView>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import { Stack, Tabs } from 'expo-router'
+import { router, Stack, Tabs } from 'expo-router'
 import { FontAwesome } from '@expo/vector-icons'
 import color from '../../constants/colors'
 

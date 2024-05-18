@@ -4,8 +4,12 @@ import globalStyle from '../../constants/style'
 import { FontAwesome } from '@expo/vector-icons'
 import color from '../../constants/colors'
 import { router } from 'expo-router'
+import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
+  const { token, onHello, onLogout } = useAuth();
+  console.log({token})
+
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -64,13 +68,19 @@ export default function HomePage() {
 
           {/* Card Action */}
           <View style={{ marginVertical: 15, flexDirection: 'row', justifyContent: 'space-around' }}>
-            <TouchableOpacity onPress={() => {router.push('transfer/transfer')}}>
+            <TouchableOpacity onPress={() => {
+                onLogout();
+                // router.push('transfer/transfer')
+              }}>
               <View style={styles.transactionCard}>
                 <FontAwesome name="exchange" size={20} color={color.biru} style={{padding:17, marginBottom:5, backgroundColor:'#fff', borderRadius:7}}/>
                 <Text style={{ color:color.biru }}>Transfer</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity  onPress={() => {router.push('apply/apply')}}>
+            <TouchableOpacity  onPress={() => {
+                onHello();
+                // router.push('apply/apply')
+              }}>
               <View style={styles.transactionCard}>
                 <FontAwesome name="check" size={20} color={color.biru} style={{padding:17, marginBottom:5, backgroundColor:'#fff', borderRadius:7}}/>
                 <Text style={{ color:color.biru }}>Apply</Text>
