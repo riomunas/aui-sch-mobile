@@ -11,10 +11,7 @@ export default function Page() {
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
       </View>
 
-      <Pressable onPress={() => {
-        onLogout();
-        router.push("/(claim)/pilih-paket")
-      }}>
+      <Pressable onPress={onLogout}>
         <Text style={styles.subtitle}>Claim</Text>
       </Pressable>
 

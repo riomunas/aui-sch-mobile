@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, TouchableOpacity, ImageBackground, FlatList, FlatListComponent, ScrollView } from 'react-native'
 import React from 'react'
-import globalStyle from '../../constants/style'
+import globalStyle from '../../constants/env'
 import { FontAwesome } from '@expo/vector-icons'
 import color from '../../constants/colors'
 import { router } from 'expo-router'
@@ -8,8 +8,6 @@ import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
   const { token, onHello, onLogout } = useAuth();
-  console.log({token})
-
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',

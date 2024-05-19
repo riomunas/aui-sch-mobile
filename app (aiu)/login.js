@@ -3,13 +3,12 @@ import React, { useState } from 'react'
 import { Link, router } from 'expo-router'
 import Button from '../components/Button'
 import Input from '../components/Input'
-import globalStyle from '../constants/style'
+import globalStyle from '../constants/env'
 import { AuthProvider, useAuth } from '../context/AuthContext'
 import HomePage from './(tabs)/home'
 
 export default function LoginPage() {
   const {token} = useAuth();
-  console.log({token})
   return (
     <>
     {token.accessToken ? <HomePage /> :<Layout />}

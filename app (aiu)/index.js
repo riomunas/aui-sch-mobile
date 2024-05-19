@@ -8,7 +8,6 @@ import { Redirect } from 'expo-router';
 
 export default function IndexPage() {
   const {token} = useAuth();
-  console.log(token.accessToken)
   return (
     <>
     <Redirect href={"(tabs)/home)"}/>

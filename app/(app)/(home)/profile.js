@@ -1,12 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useAppContext } from "../../../context/app-context";
+import { router } from "expo-router";
 
 export default function Page() {
+  const { onLogout } = useAppContext();
+
+  const logout = async () => {
+    const response = await onLogout();
+    console.log(response)
+    // if (response.status == 'FAILED') {
+    //   alert(response.data);
+    // } else {
+    //   router.replace('/');
+    // }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Profile Screen</Text>
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
       </View>
+
+      <Pressable onPress={logout}>
+        <Text style={styles.subtitle}>Log Out</Text>
+      </Pressable>
     </View>
   );
 }
