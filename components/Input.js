@@ -1,6 +1,6 @@
 import { View, Text, TextInput } from 'react-native'
 import React from 'react'
-import color from '../constants/colors'
+import color from '../config/colors'
 
 const Input = ({...props}) => {
   return (

@@ -8,7 +8,7 @@ export default function RootLayout() {
   console.log(">> RootLayout")
   return (
     <AppContextProvider>
-      <Slot/>
+      <Slot screenOptions={{ headerShown: false }}/>
     </AppContextProvider>
   )
 }

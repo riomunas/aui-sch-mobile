@@ -1,6 +1,6 @@
-import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import ENV from "../constants/env";
+import { jwtDecode } from "jwt-decode";
+import { axiosBase } from "../config/axios-base-config";
 
 export const AppContext = createContext({});
 
@@ -9,11 +9,37 @@ export const useAppContext = () => {
 }
 
 export const AppContextProvider = ({ children }) => {
-  const [token, setToken] = useState({accessToken:null, refreshToken:null});
+  const [token, setToken] = useState({accessToken:null, refreshToken:null, userId:null});
+  const fetchData = axiosBase();
 
   const logout = async () => {
     try {
-      const response = await axios.post(`${ENV.BASE_URL}/api/user/logout`, {
+      console.log('>> logout : ')
+
+      const decodedToken = jwtDecode(token.accessToken); // Mendekode token JWT untuk membaca informasi
+      console.log({decodedToken});
+
+      const expirationTimeInSeconds = decodedToken.exp;
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+      if (expirationTimeInSeconds < currentTimeInSeconds) {
+        // Token sudah kedaluwarsa
+        // Alert.alert('Token Expired', 'Your Keycloak token has expired. Please log in again.');
+
+        console.log('Token is not valid.');
+        setToken({
+          accessToken:null, 
+          refreshToken:null,
+          userId:null
+        });
+        return;
+        // Lakukan sesuatu di sini, seperti menghapus token dari penyimpanan atau mengarahkan pengguna ke halaman login
+      } else {
+        // Token masih valid
+        console.log('Token is still valid.');
+      }
+
+      const response = await fetchData.post('/api/user/logout', {
         refresh_token: token.refreshToken
       },{
         headers: {
@@ -25,26 +51,56 @@ export const AppContextProvider = ({ children }) => {
       // Mengatur token setelah login berhasil
       setToken({
         accessToken:null, 
-        refreshToken:null
+        refreshToken:null,
+        userId:null
       });
 
       return response;
     } catch(error) {
+      console.log(error)
       return error.response.data;
     }
   }
 
   const login = async(user, password) => {
     try {
-      const response = await axios.post(`${ENV.BASE_URL}/api/user/login`, {
+      const response = await fetchData.post('/pub/user/login', {
         username: user,
         password: password
       });
 
+      const decodedToken = jwtDecode(response.data.data.access_token); // Mendekode token JWT untuk membaca informasi
+
       // Mengatur token setelah login berhasil
       setToken({
           accessToken: response.data.data.access_token,
-          refreshToken: response.data.data.refresh_token
+          refreshToken: response.data.data.refresh_token,
+          userId: decodedToken.sub
+      });
+
+      return response;
+    } catch(error) {
+      console.log(error.response);
+      return {...error.response, status:'FAILED'};
+    }
+  }
+
+  const register = async(user) => {
+    console.log({user});
+    try {
+      const response = await fetchData.post('/pub/user/register', {
+        username: user.username,
+        password: user.password,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailVerified: false,
+        enabled: true,
+        credentials:[{
+          temporary: false,
+          type: 'password',
+          value: user.password
+        }]
       });
 
       return response;
@@ -58,6 +114,6 @@ export const AppContextProvider = ({ children }) => {
   }
 
   return (
-    <AppContext.Provider value={{onLogin:login, onLogout:logout, token, onCheck:cek}}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{onLogin:login, onLogout:logout, onRegister:register, token, onCheck:cek}}>{children}</AppContext.Provider>
   );
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link, router } from 'expo-router'
 import Button from '../components/Button'
 import Input from '../components/Input'
-import globalStyle from '../constants/env'
+import globalStyle from '../config/env'
 import { AuthProvider, useAuth } from '../context/AuthContext'
 import HomePage from './(tabs)/home'
 

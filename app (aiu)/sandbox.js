@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React from 'react'
-import globalStyle from '../constants/env';
+import globalStyle from '../config/env';
 
 export default function SandboxPage() {
   return (

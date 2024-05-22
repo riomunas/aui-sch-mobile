@@ -1,17 +1,15 @@
-import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
+  var {paketid} = useLocalSearchParams();
+  console.log(paketid)
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>Pilih Methode Pembayaran</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
+        <Text style={styles.title}>Hello World</Text>
+        <Text style={styles.subtitle}>This is the first page of your app. XXX : {paketid}</Text>
       </View>
-
-      <Pressable onPress={() => router.push("/(apply)/submit-apply")}>
-        <Text style={styles.subtitle}>Pilih</Text>
-      </Pressable>
     </View>
   );
 }

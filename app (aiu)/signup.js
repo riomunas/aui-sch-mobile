@@ -4,7 +4,7 @@ import { Link, router } from 'expo-router'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import { FontAwesome } from '@expo/vector-icons'
-import globalStyle from '../constants/env'
+import globalStyle from '../config/env'
 
 export default function SignupPage() {
   return (

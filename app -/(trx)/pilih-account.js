@@ -1,17 +1,19 @@
-import { router } from "expo-router";
+import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>Submit Transfer</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
+        <Text style={styles.title}>Hello World</Text>
+        <Text style={styles.subtitle}>Pilh Account This is the first page of your app.</Text>
       </View>
 
-      <Pressable onPress={() => router.navigate("/")}>
-        <Text style={styles.subtitle}>Submit</Text>
-      </Pressable>
+      <Link href="/(trx)/pilih-paket/paket1" asChild>
+        <Pressable>
+          <Text style={styles.subtitle}>Go go go</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }

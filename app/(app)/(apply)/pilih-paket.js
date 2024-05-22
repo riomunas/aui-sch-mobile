@@ -1,26 +1,52 @@
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { axiosWithToken } from "../../../config/axios-withtoken-config";
+import { SafeAreaView } from "react-native-safe-area-context";
+import PackageCard from '../../../components/PakageCard';
 
 export default function Page() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Pilih Paket</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-      </View>
+  const [ paketData, setPaketData] = useState([]);
+  const fetchData = axiosWithToken();
+  const formatterUang = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR', // Mata uang Indonesia
+    minimumFractionDigits: 0, // Jumlah digit minimum untuk desimal
+  });
+  
+  useEffect(() => {
+    fetchData
+    .get('/api/paket')
+    .then(res => {
+      setPaketData(res.data.data);  
+    })
+  }, []);
 
-      <Pressable onPress={() => router.push("/(apply)/pilih-pembayaran")}>
-        <Text style={styles.subtitle}>Pilih</Text>
-      </Pressable>
+  const Item = ({ item }) => (
+    <TouchableOpacity activeOpacity={0.7} onPress={() => router.push({
+      pathname: '/(apply)/pilih-pembayaran/[paketId]',
+      params: { paketId: item.id },
+    })}>
+      <PackageCard packageName={item.name} packagePrice={formatterUang.format(item.price)}/>
+    </TouchableOpacity>
+  );
+
+  return (
+    <View style={{ flex: 1, padding:10}}>
+      <ScrollView>
+        <View style={styles.container}>
+          {paketData.map((item, index) => (
+            <Item key={index} item={item}/>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
+    flex: 1
   },
   main: {
     flex: 1,
