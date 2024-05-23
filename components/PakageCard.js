@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Sesuaikan dengan library ikon yang Anda gunakan
+import color from '../config/colors';
 
 const PackageCard = ({ packageName, packagePrice }) => {
   return (
@@ -26,9 +27,8 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     backgroundColor: '#fff',
     borderRadius: 8,
-    padding: 20,
-    marginBottom: 5,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 5,
     borderColor: '#ccc',
     borderWidth:1,
   },
@@ -42,12 +42,11 @@ const styles = StyleSheet.create({
   packageName: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   priceWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007bff', // Warna biru untuk harga paket
+    backgroundColor: color.biru,
     borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 10,

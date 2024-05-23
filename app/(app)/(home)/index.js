@@ -34,26 +34,69 @@ export default function Page() {
   );
 
   return (
-    <SafeAreaView style={{ flexDirection:'column', flex: 1, justifyContent: 'center', padding:10}}>
-      <ScrollView>
-        <View style={styles.container}>
+//     <SafeAreaView style={{ flexDirection:'column', flex: 1, justifyContent:'space-between', padding:10, backgroundColor:'grey'}}>
+//         {/* user section */}
+//         <UserCard user={UserData} />
+        
+//         {/* action section */}
+//         <View style={{ backgroundColor:'yellow', flexDirection: 'row'  }}>
+//           <ActionButton iconName="check" text="Apply" onPress={() => router.push("/(apply)/pilih-paket")} />
+//           <ActionButton iconName="exchange" text="Transfer" onPress={() => router.push("/(transfer)/pilih-paket")} />
+//           <ActionButton iconName="handshake-o" text="Claim" onPress={() => router.push("/(claim)/pilih-paket")} />
+//           {/* Tambahkan lebih banyak ActionButton sesuai kebutuhan */}
+//         </View>
+
+//         <View style={styles.container}>
+
+//           <View style={{ backgroundColor: 'red', height: 100 }}>
+//             <Text>asdfasdf</Text>
+//           </View>
+
+// {/* 
+//           <Text style={{ marginVertical:5 }}>Daftar Paket</Text>
+//           {
+//             paketData.map((item, index) => (
+//               <Item key={index} item={item}/>
+//             ))
+//           } */}
+
+//         </View>
+//       <ScrollView>
+//       </ScrollView>
+//     </SafeAreaView>
+
+
+    <SafeAreaView style={{ padding:10, flex:1 }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View  style={{gap:10, flex:1}}>
+
           {/* user section */}
           <UserCard user={UserData} />
 
+          {/* id card elektronik  */}
+          <View style={{ borderWidth:1, padding:10, borderRadius:10, minHeight:200, backgroundColor: color.black }}>
+            <View><Text style={{...styles.title, color:'white'}}>user id</Text></View>
+            <View><Text style={{...styles.title, color:'white'}}>12/12/1212</Text></View>
+          </View>
+
           {/* action section */}
-          <View style={{ flexDirection: 'row', marginVertical: 15, justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', gap:10 }}>
             <ActionButton iconName="check" text="Apply" onPress={() => router.push("/(apply)/pilih-paket")} />
             <ActionButton iconName="exchange" text="Transfer" onPress={() => router.push("/(transfer)/pilih-paket")} />
             <ActionButton iconName="handshake-o" text="Claim" onPress={() => router.push("/(claim)/pilih-paket")} />
             {/* Tambahkan lebih banyak ActionButton sesuai kebutuhan */}
           </View>
 
-          <Text style={{ marginVertical:5 }}>Daftar Paket</Text>
-          {paketData.map((item, index) => (
-            <Item key={index} item={item}/>
-          ))}
-
+          {/* paket section */}
+          <View style={{marginTop:25}}><Text style={styles.title}>Paket Yang Diambil</Text></View>
+          <View style={{gap:3}}>
+            <PackageCard packageName='{item.name}' packagePrice={'12/12/1212'}/>
+            <PackageCard packageName='{item.name}' packagePrice={'12/12/1212'}/>
+            <PackageCard packageName='{item.name}' packagePrice={'12/12/1212'}/>
+            <PackageCard packageName='{item.name}' packagePrice={'12/12/1212'}/>
+          </View>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -62,7 +105,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
   },
   main: {
     flex: 1,
@@ -71,16 +114,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-  transactionCard: {
-    borderColor: color.biru,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    fontSize: 17,
+    fontWeight: 'bold'
+  }
 });

@@ -5,31 +5,33 @@ import color from '../config/colors';
 
 const ActionButton = ({ iconName, text, onPress }) => {
   return (
-    <>
-      <Pressable style={styles.container} onPress={onPress}>
-        <Icon name={iconName} size={30} color={color.biru} style={styles.icon} />
-        <Text style={styles.text}>{text}</Text>
-      </Pressable>
-    </>
+    <Pressable  onPress={onPress}
+      style={({ pressed }) => [
+        { backgroundColor: pressed ? 'lightgrey' : 'white' },
+        styles.container
+      ]}>
+      <View style={{ flex:1, padding: 10, flexDirection:'column', justifyContent:'center', alignItems:'center', borderTopLeftRadius:10, borderTopRightRadius:10 }}>
+        <Icon name={iconName} size={30} color={color.biru}/>
+      </View>
+      <View style={{ padding: 5, flexDirection:'column', alignItems:'center', backgroundColor:color.biru, borderBottomLeftRadius:8, borderBottomRightRadius:8 }}><Text style={{fontSize:16, color:'white'}}>{text}</Text></View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: '#ffffff',
-    borderStyle: 'dashed',
+    minHeight:100,
+    
+    borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: color.biru,
     borderRadius: 10,
+    // alignItems: 'center'
   },
   icon: {
-    marginBottom: 5,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
   },
   text: {
     color: color.black,
