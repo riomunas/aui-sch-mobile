@@ -1,23 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import color from '../config/colors';
 
 const UserCard = ({ user }) => {
   return (
     <View>
-      <View style={styles.containerAtas}>
-        <View style={styles.iconContainer}>
-          <Icon name="user-circle" size={45} style={styles.icon} />
-        </View>
-        <View style={{flex:1, padding: 10, gap:10}}>
-          <View>
-            <Text style={{...styles.name}}>{user.name}</Text>
-          </View>
-          <View>
-            <Text style={styles.email}>{user.email}</Text>
-          </View>
-        </View>
-      </View>
       <View style={styles.containerBawah}>
         <View style={styles.userInfo}>
           <Text style={styles.email}>Total Aset :</Text>
@@ -38,17 +26,17 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderColor: '#dedede',
-    borderWidth:1,
+    borderWidth: 0.7,
     borderStyle: 'solid'
   },
   containerBawah: {
     flexDirection: 'row',
+    padding: 10,
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    borderColor: '#dedede',
-    borderStyle: 'solid',
+    borderRadius: 10,
+    borderColor: color.biru,
+    borderStyle: 'dashed',
     borderWidth: 1,
   },
   iconContainer: {
@@ -65,7 +53,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     // marginBottom: 5,
   },

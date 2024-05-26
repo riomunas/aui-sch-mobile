@@ -8,7 +8,10 @@ export default function RootLayout() {
   console.log(">> RootLayout")
   return (
     <AppContextProvider>
-      <Slot screenOptions={{ headerShown: false }}/>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="sign-in"/>
+        <Stack.Screen name="sign-up" options={{ headerShown: true, title: 'Sign Up' }} />
+      </Stack>
     </AppContextProvider>
   )
 }

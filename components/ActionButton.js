@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     minHeight:100,
     
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 0.7,
     borderColor: color.biru,
     borderRadius: 10,
     // alignItems: 'center'

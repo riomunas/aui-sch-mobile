@@ -68,13 +68,13 @@ export default function Page() {
           `}}
           onMessage={(event) => {
             try {
-              const data = JSON.parse(message);
-              if (data.event === 'onClose') {
-                router.back();
-              } 
+              const data = JSON.parse(event.nativeEvent.data);
+              console.log(data.event)
+
               switch (data.event) {
-                case 'getStatusAndClose':
                 case 'onSuccess':
+                  router.navigate('/');
+                  break;
                 case 'onClose':
                 case 'onPending':
                 case 'onError':

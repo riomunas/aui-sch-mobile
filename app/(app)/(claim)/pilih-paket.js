@@ -2,6 +2,11 @@ import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
+  const onPress = () => {
+    // router.push("/(claim)/submit-claim");
+
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.main}>
@@ -9,7 +14,7 @@ export default function Page() {
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
       </View>
 
-      <Pressable onPress={() => router.push("/(claim)/submit-claim")}>
+      <Pressable onPress={onPress}>
         <Text style={styles.subtitle}>Pilih</Text>
       </Pressable>
     </View>

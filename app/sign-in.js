@@ -41,7 +41,7 @@ export default function Page() {
           <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} />
         </View>
         <View style={{ marginBottom: 10 }}>
-          <Button icon="account" mode="contained" onPress={login} >
+          <Button onPress={login} >
             Login
           </Button>
         </View>
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   main: {
     justifyContent: "center",
     marginHorizontal: "auto",
+    
   },
   title: {
     fontSize: 64,
