@@ -1,4 +1,4 @@
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAppContext } from "../context/app-context";
 import { Link, router } from "expo-router";
 import { useState } from "react";
@@ -55,10 +55,11 @@ export default function Page() {
 
   return (
     <SafeAreaView style={{ flexDirection:'column', flex: 1, justifyContent: 'center', paddingHorizontal: 20}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flexDirection: 'column', flex:1, justifyContent: 'center'}}>
         <View style={styles.main}>
-          <Text style={styles.title}>Register</Text>
-          <Text style={styles.subtitle}>Please put your profile.</Text>
+          {/* <Text style={styles.title}>Register</Text> */}
+          {/* <Text style={styles.subtitle}>Please put your profile.</Text> */}
         <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
           <Image source={require('../assets/ico.png')} style={{ width: 150, height: 150}} />
         </View>
@@ -93,6 +94,7 @@ export default function Page() {
           </Button>
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

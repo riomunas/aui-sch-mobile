@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import color from '../../../config/colors';
 import { useAppContext } from '../../../context/app-context';
 import { router } from 'expo-router';
+import LoadingIndicator from '../../../components/LoadingIndicator';
 
 const ProfileScreen = () => {
   const { onLogout } = useAppContext();
+  const [ loading, setLoading ] = useState(false);
 
   const logout = async () => {
+    setLoading(true);
     const response = await onLogout();
-    console.log('>> logout', response.status)
     if (response.status == 'FAILED') {
-      alert(response.data);
+    setLoading(false);
+    alert(response.data);
     } else {
-      router.navigate('/');
+    setLoading(false);
+    router.navigate('/');
     }
   }
 
@@ -65,8 +69,7 @@ const ProfileScreen = () => {
           </View>
         </Pressable>
       </View>
-      <View style={styles.actionContainer}>
-      </View>
+      <LoadingIndicator visible={loading} />
     </View>
   );
 };

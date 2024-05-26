@@ -1,23 +1,29 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Modal, StyleSheet, Text, View } from "react-native";
 import { useAppContext } from "../context/app-context";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { ActivityIndicator } from "react-native-paper";
+import color from "../config/colors";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 export default function Page() {
   const { onLogin, token } = useAppContext();
-  console.log({token})
-  
+  const [ loading, setLoading ] = useState(false);
   const [ username, setUsername ] = useState('dev-user1');
   const [ password, setPassword ] = useState('Test123$'); 
   
   const login = async () => {
+    setLoading(true);
+
     const response = await onLogin(username, password);
     if (response.status == 'FAILED') {
+      setLoading(false);
       alert(response.data);
     } else {
+      setLoading(false);
       router.replace('/');
     }
   }
@@ -49,6 +55,26 @@ export default function Page() {
           <Text>Not Registered?</Text> 
           <Link style={{ color: '#2196f3' }} push href={"/sign-up"}> Sign Up</Link>
         </View>
+
+        <LoadingIndicator visible={loading?true:false} message={'Logging in...'} />
+
+        {/* Modal untuk menampilkan pesan loading */}
+        {/* <Modal
+          animationType="fade"
+          transparent={true}
+          visible={loading?true:false}
+          onRequestClose={() => {
+            // Handle jika modal ditutup
+            // setModalVisible(false);
+          }}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+              <ActivityIndicator color={color.biru} />
+              <Text style={{ marginTop: 10 }}>Logging in...</Text>
+            </View>
+          </View>
+        </Modal> */}
       </View>
     </SafeAreaView>
   );

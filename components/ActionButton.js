@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, Pressable, View } from 'react-nativ
 import Icon from 'react-native-vector-icons/FontAwesome';
 import color from '../config/colors';
 
-const ActionButton = ({ iconName, text, onPress }) => {
+const ActionButton = ({ iconName, text, onPress, children }) => {
   return (
     <Pressable  onPress={onPress}
       style={({ pressed }) => [
@@ -11,7 +11,7 @@ const ActionButton = ({ iconName, text, onPress }) => {
         styles.container
       ]}>
       <View style={{ flex:1, padding: 10, flexDirection:'column', justifyContent:'center', alignItems:'center', borderTopLeftRadius:10, borderTopRightRadius:10 }}>
-        <Icon name={iconName} size={30} color={color.biru}/>
+        {children}
       </View>
       <View style={{ padding: 5, flexDirection:'column', alignItems:'center', backgroundColor:color.biru, borderBottomLeftRadius:8, borderBottomRightRadius:8 }}><Text style={{fontSize:16, color:'white'}}>{text}</Text></View>
     </Pressable>

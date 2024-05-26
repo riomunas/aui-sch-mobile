@@ -1,41 +1,46 @@
 import { router } from "expo-router";
-import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import UserCard from "../../../components/UserCard";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import UserCard from "../../../components/SummaryAset";
+import { SafeAreaView, useSafeAreaFrame } from "react-native-safe-area-context";
 import ActionButton from "../../../components/ActionButton";
-import color from "../../../config/colors";
-import PackageCard from "../../../components/PakageCard";
 import { useEffect, useState } from "react";
-// import axios from "axios";
 import { axiosWithToken } from "../../../config/axios-withtoken-config";
-import MemberCard from "../../../components/MemberCard";
 import PackageItem from "../../../components/PackageItem";
-import CustomComponent from "../../../components/CustomComponent";
 import { FontAwesome6 } from '@expo/vector-icons';
+import color from "../../../config/colors";
+import LoadingIndicator from "../../../components/LoadingIndicator";
+import moment from 'moment';
+import MemberCard from "../../../components/MemberCard";
+import SummaryAset from "../../../components/SummaryAset";
 
 export default function Page() {
   const fetctData = axiosWithToken();
-  const [paketData, setPaketData] = useState([]);
+
+  const [ data, setData ] = useState({});
+  const [ dataPaket, setDataPaket ] = useState(null);
+  const [ dataUser, setDataUser] = useState(null);
+  const [ dataTotalAset, setDataTotalAset] = useState(null);
+  const [ loading, setLoading ] = useState(true);
   const formatterUang = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR', // Mata uang Indonesia
     minimumFractionDigits: 0, // Jumlah digit minimum untuk desimal
   });
 
-  useEffect(() => {
-    fetctData.get('/api/paket').then(res => {
-      setPaketData(res.data.data);
+  const loadData = () => {
+    setLoading(true);
+    fetctData.get('/api/dashboard').then(res => {
+      setLoading(false);
+      setData(res.data.data);
+      setDataPaket(res.data.data.paket)
+      setDataUser(res.data.data.user)
+      setDataTotalAset(res.data.data.total_aset)
     });
-  }, []);
+  }
 
-  const UserData = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-  };
-  
-  const Item = ({ item }) => (
-    <PackageCard packageName={item.name} packagePrice={formatterUang.format(item.price)}/>
-  );
+  useEffect(() => {
+    loadData()
+  }, []);
 
   return (
     <SafeAreaView style={{ padding:10, flex:1 }}>
@@ -43,47 +48,41 @@ export default function Page() {
         <View  style={{gap:10, flex:1}}>
           
           {/* id card elektronik  */}
-          <View style={{ flex:1, borderRadius:10, minHeight:150, position: 'relative'}}>
-            <Image style={{ flex: 1, borderRadius:10, resizeMode: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../../../assets/card-3.png')}/>
-            <View style={{ padding:15, flex:1, gap:10}}>
-              <View style={{ margin:0, flexDirection:'row', justifyContent:'space-between'}}>
-                <Image source={require('../../../assets/ico1.png')} style={{ width: 50, height: 33}} />
-                <Text style={{color:'white'}}>12/12/1212</Text>
-              </View>
-              <View style={{ flex:1,  padding:0, flexDirection:'row', alignItems:'center'}}>
-                <View style={{ flex:1, justifyContent:'space-between'}}>
-                  <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 5,}}>nama</Text>
-                  <Text style={{color: '#A6ACB9',fontSize: 14,marginBottom: 5,}}>email</Text>
-                  <Text style={{color: '#A6ACB9',fontSize: 14,}}>tanggal_daftar</Text>
-                </View>
-                <Image source={require('../../../assets/user.png')} style={{width: 100,height: 100,borderRadius: 50,marginRight: 20,}} />
-              </View>
-              <View style={{ alignItems:'center'}}><Text style={{...styles.title, color:'white', fontSize:18}}>AAAA-13121-1345SDSFE988-988324</Text></View>
-            </View>
-          </View>
+          <Pressable onPress={loadData}>
+            <MemberCard data={dataUser}/>
+          </Pressable>
 
           {/* user section */}
-          <UserCard user={UserData} />
+          <SummaryAset data={formatterUang.format(dataTotalAset)} />
 
           {/* action section */}
           <View style={{ flexDirection: 'row', gap:10 }}>
-            <ActionButton iconName="check" text="Apply" onPress={() => router.push("/(apply)/pilih-paket")} />
-            <ActionButton iconName="exchange" text="Transfer" onPress={() => router.push("/(transfer)/pilih-paket")} />
-            <ActionButton iconName="handshake-o" text="Claim" onPress={() => router.push("/(claim)/pilih-paket")} />
-            {/* Tambahkan lebih banyak ActionButton sesuai kebutuhan */}
+            <ActionButton iconName="check" text="Apply" onPress={() => router.push("/(apply)/pilih-paket")} >
+              <FontAwesome6 name="check-double" size={32} color={color.biru} />
+            </ActionButton>
+            <ActionButton iconName="exchange" text="Transfer" onPress={() => router.push("/(transfer)/pilih-paket")}>
+              <FontAwesome6 name="money-bill-transfer" size={32} color={color.biru} />
+            </ActionButton>
+            <ActionButton iconName="handshake-o" text="Claim" onPress={() => router.push("/(claim)/pilih-paket")}>
+              <FontAwesome6 name="file-circle-check" size={32} color={color.biru} />
+            </ActionButton>
           </View>
 
           {/* paket section */}
           <View style={{marginTop:25}}><Text style={styles.title}>Paket Yang Diambil</Text></View>
           
-          <CustomComponent 
-            date={'12 Mei 2024'}
-            price={'Rp. 2.0000.000'}
-            packageName={'Paket SD 1'}
-          />
+          {dataPaket?.map((item, index) => (
+            <PackageItem 
+              key={item.id}
+              date={moment(item.date).format('DD MMMM YYYY')}
+              price={formatterUang.format(item.start_price)}
+              currentPrice={formatterUang.format(item.current_price)}
+              packageName={item.name}
+            />
+          ))}
           
         </View>
-
+        <LoadingIndicator visible={loading} />
       </ScrollView>
     </SafeAreaView>
   );

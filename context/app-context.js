@@ -80,8 +80,18 @@ export const AppContextProvider = ({ children }) => {
 
       return response;
     } catch(error) {
-      console.log(error.response);
-      return {...error.response, status:'FAILED'};
+      try {
+        const jsonMatch = error.response.data.data.match(/\{.*\}/);
+        if (jsonMatch) {
+          const parsedData = JSON.parse(jsonMatch[0]);
+          console.log(parsedData.error_description);
+          return {status:'FAILED', data: parsedData.error_description};
+        } else {
+          return {status:'FAILED', data: error.message};
+        }
+      } catch (e) {
+        return {status:'FAILED', data: error.message};
+      }
     }
   }
 

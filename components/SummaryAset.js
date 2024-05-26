@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import color from '../config/colors';
 
-const UserCard = ({ user }) => {
+const SummaryAset = ({ data }) => {
   return (
     <View>
       <View style={styles.containerBawah}>
@@ -11,7 +11,7 @@ const UserCard = ({ user }) => {
           <Text style={styles.email}>Total Aset :</Text>
         </View>
           <View style={styles.userInfo}>
-          <Text style={{...styles.name, textAlign:'right'}}>Rp. 12.000.000</Text>
+          <Text style={{...styles.name, textAlign:'right'}}>{data}</Text>
         </View>
       </View>
     </View>
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserCard;
+export default SummaryAset;

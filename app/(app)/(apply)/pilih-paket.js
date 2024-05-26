@@ -6,11 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import PackageCard from '../../../components/PakageCard';
 import BottomBar from "../../../components/BottomBar";
 import Button from "../../../components/Button";
-import CustomComponent from "../../../components/CustomComponent";
+import SelectablePackageItem from "../../../components/SelectablePackageItem";
+import LoadingIndicator from "../../../components/LoadingIndicator";
 
 export default function Page() {
   const [selectedPaket, setSelectedPaket] = useState(null);
   const [ paketData, setPaketData] = useState([]);
+  const [ loading, setLoading ] = useState(true);
+
   const fetchData = axiosWithToken();
   const formatterUang = new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -18,12 +21,18 @@ export default function Page() {
     minimumFractionDigits: 0, // Jumlah digit minimum untuk desimal
   });
   
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true);
     fetchData
     .get('/api/paket')
     .then(res => {
+      setLoading(false);
       setPaketData(res.data.data);  
     })
+  }
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   const Item = ({ item }) => {
@@ -35,12 +44,14 @@ export default function Page() {
           setSelectedPaket(item);
         }
       }}>
-        <CustomComponent key={item.id} packageName={item.name} price={formatterUang.format(item.price)} isSelectable={true} isSelected={selectedPaket?.id === item.id?true:false} />
+        <SelectablePackageItem key={item.id} packageName={item.name} price={formatterUang.format(item.price)} isSelectable={true} isSelected={selectedPaket?.id === item.id?true:false} />
       </Pressable>
     )};
 
   return (
     <View style={{ flex: 1}}>
+      <LoadingIndicator visible={loading}/>
+
       <ScrollView showsVerticalScrollIndicator={false} style={{ }}>
         <View style={styles.container}>
           {paketData.map((item, index) => (
