@@ -15,7 +15,7 @@ const SelectablePackageItem = ({ date, packageName, price, isSelected, isSelecta
         ) : null}
       </View>
       <View style={[styles.row, styles.bottomRow]}>
-        <Text style={styles.priceLabel}>Harga:</Text>
+        <Text style={styles.priceLabel}>Nilai :</Text>
         <Text style={styles.price}>{price}</Text>
       </View>
     </View>

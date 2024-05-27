@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: color.biru,
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: 0.7,
   },
   iconContainer: {
     borderStyle: 'solid',

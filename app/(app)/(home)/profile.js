@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import color from '../../../config/colors';
 import { useAppContext } from '../../../context/app-context';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 
 const ProfileScreen = () => {
@@ -21,6 +21,17 @@ const ProfileScreen = () => {
     router.navigate('/');
     }
   }
+
+  const loadData = () => {
+    console.log('do something')
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [])
+  );
+
 
   return (
     <View style={{flex: 1, padding: 10, justifyContent: 'flex-start', gap:10}}>

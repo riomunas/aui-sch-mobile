@@ -13,7 +13,6 @@ export default function Page() {
 
   return (
       <View style={{ flexDirection: 'column', flex:1, gap:10, paddingHorizontal: 10, paddingVertical: 20}}>
-        <Text>{orderId}</Text>
         <View style={{ }}>
           <Input placeholder="Id Tujuan" onChangeText={(text) => setAccountId(text)} value={accountId} />
         </View>

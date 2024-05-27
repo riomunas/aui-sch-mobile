@@ -80,6 +80,7 @@ export const AppContextProvider = ({ children }) => {
 
       return response;
     } catch(error) {
+      console.log(error.response);
       try {
         const jsonMatch = error.response.data.data.match(/\{.*\}/);
         if (jsonMatch) {

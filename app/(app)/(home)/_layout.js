@@ -22,7 +22,7 @@ export default function Layout() {
             }}
               style={({ pressed }) => [pressed && {opacity:0.7}]}
             >
-              <FontAwesome6 name="edit" size={24} color={color.black} style={{ marginRight: 15 }} />
+              <FontAwesome6 name="edit" size={16} color={color.black} style={{ marginRight: 20 }} />
             </Pressable>
         )},
         headerTitle:'Profile', tabBarLabel:({focused, color}) => <Text style={{fontSize:10, color: focused ? biru : 'grey'}} >Profile</Text>, tabBarIcon: ({size,  focused}) => <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color.biru}/> }} 
