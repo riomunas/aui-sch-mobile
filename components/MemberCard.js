@@ -5,7 +5,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const MemberCard = ({ data }) => {
 
   return (
-    <View style={{ flex:1, borderRadius:10, minHeight:150, position: 'relative'}}>
+    <View style={{ height:220, borderRadius:10, minHeight:150, position: 'relative'}}>
       <Image style={{ flex: 1, borderRadius:10, resizeMode: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../assets/card-3.png')}/>
       <View style={{ padding:15, flex:1, gap:10}}>
         <View style={{ margin:0, flexDirection:'row', justifyContent:'space-between'}}>
@@ -14,7 +14,7 @@ const MemberCard = ({ data }) => {
         </View>
         <View style={{ flex:1,  padding:0, flexDirection:'row', alignItems:'center'}}>
           <View style={{ flex:1, justifyContent:'space-between'}}>
-            <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 5,}}>{data?.username}</Text>
+            <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 5,}}>{data?.first_name} {data?.last_name}</Text>
             <Text style={{color: '#A6ACB9',fontSize: 14,marginBottom: 5,}}>{data?.email}</Text>
             {/* <Text style={{color: '#A6ACB9',fontSize: 14,}}>tanggal_daftar</Text> */}
           </View>

@@ -1,9 +1,9 @@
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import UserCard from "../../../components/SummaryAset";
 import { SafeAreaView, useSafeAreaFrame } from "react-native-safe-area-context";
 import ActionButton from "../../../components/ActionButton";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { axiosWithToken } from "../../../config/axios-withtoken-config";
 import PackageItem from "../../../components/PackageItem";
 import { FontAwesome6 } from '@expo/vector-icons';
@@ -13,7 +13,7 @@ import moment from 'moment';
 import MemberCard from "../../../components/MemberCard";
 import SummaryAset from "../../../components/SummaryAset";
 
-export default function Page() {
+export function Page() {
   const fetctData = axiosWithToken();
 
   const [ data, setData ] = useState({});
@@ -38,9 +38,11 @@ export default function Page() {
     });
   }
 
-  useEffect(() => {
-    loadData()
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{ padding:10, flex:1 }}>
@@ -80,6 +82,11 @@ export default function Page() {
               packageName={item.name}
             />
           ))}
+          {dataPaket?.length == 0 && (
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', borderColor:color.biru, borderRadius:10, borderStyle:'dashed', borderWidth:1, padding:50}}>
+              <Text style={{textAlign:'center'}}>Belum ada paket beasiswa yang diambil</Text>
+            </View>
+          )}
           
         </View>
         <LoadingIndicator visible={loading} />
@@ -103,3 +110,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 });
+
+export default Page;

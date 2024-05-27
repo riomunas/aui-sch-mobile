@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import Button from './Button';
 
-const BottomBar = ({ packageName, totalPrice, onPress, isVisible }) => {
+const BottomBar = ({ packageName, totalPrice, onPress, isVisible, btnTitle}) => {
   if (!isVisible) return null; // Jika isVisible adalah false, maka return null (tidak ada yang ditampilkan)
 
   return (
@@ -11,7 +11,7 @@ const BottomBar = ({ packageName, totalPrice, onPress, isVisible }) => {
         <Text style={styles.packageName}>{packageName}</Text>
         <Text style={styles.totalPrice}>Total Harga: {totalPrice}</Text>
       </View>
-      <Button style={{ borderRadius: 5, width: 100, paddingVertical:7 }} onPress={onPress}>Beli</Button>
+      <Button style={{ borderRadius: 5, width: 100, paddingVertical:7 }} onPress={onPress}>{btnTitle == null ? 'Beli' : btnTitle}</Button>
     </View>
   );
 };

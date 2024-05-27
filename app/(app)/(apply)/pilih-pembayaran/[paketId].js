@@ -8,15 +8,32 @@ import ENV from "../../../../config/env";
 export default function Page() {
   const {paketId} = useLocalSearchParams();
   const [snapToken, setSnapToken] = useState(null);
-
+  const [ orderId, setOrderId] = useState(null);
   const fetchData = axiosWithToken();
-  console.log({paketId})
+  const [ loading, setLoading ] = useState(false);
 
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true);
     fetchData.post(`/api/snap/checkout/${paketId}`).then(res => {
       console.log(res.data);
-      setSnapToken(res.data.data.token);  
+      setSnapToken(res.data.data.token);
+      setOrderId(res.data.data.order_id);
+      setLoading(false);
     })
+  }
+
+  const cancelOrder = (orderId) => {
+    setLoading(true);
+    console.log('Cancel ', orderId);
+    fetchData.post(`/api/midtrans/cancel/${orderId}`)
+    .then(() => {
+      setLoading(false);
+      router.back();
+    })
+  }
+
+  useEffect(() => {
+    loadData()
   }, []);
 
   const onNavigationStateChange = (navState) => {
@@ -25,9 +42,11 @@ export default function Page() {
     }
   }
 
-  if (snapToken) {
+  // if (snapToken) {
     return (
       <View style={{ flex: 1}}>
+        <LoadingIndicator visible={loading} />
+
         <WebView
           onNavigationStateChange={onNavigationStateChange}
           style={styles.webview}
@@ -77,6 +96,8 @@ export default function Page() {
                   break;
                 case 'onClose':
                 case 'onPending':
+                  cancelOrder(orderId);
+                  break;
                 case 'onError':
                   router.back();
                   break;
@@ -90,13 +111,13 @@ export default function Page() {
         />
       </View>
     );
-  } else {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Loading...</Text>
-      </View>
-    );
-  }
+  // } else {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.title}>Loading...</Text>
+  //     </View>
+  //   );
+  // }
 }
 
 const styles = StyleSheet.create({

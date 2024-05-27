@@ -56,7 +56,7 @@ export default function Page() {
           <Link style={{ color: '#2196f3' }} push href={"/sign-up"}> Sign Up</Link>
         </View>
 
-        <LoadingIndicator visible={loading?true:false} message={'Logging in...'} />
+        <LoadingIndicator visible={loading} />
 
         {/* Modal untuk menampilkan pesan loading */}
         {/* <Modal

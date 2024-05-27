@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     borderColor: color.biru,
-    borderStyle: 'dashed',
+    borderStyle: 'solid',
     borderWidth: 1,
   },
   iconContainer: {

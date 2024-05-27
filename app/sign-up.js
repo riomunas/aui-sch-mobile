@@ -5,6 +5,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 export default function Page() {
   const { onRegister } = useAppContext();
@@ -15,6 +16,7 @@ export default function Page() {
   const [email, setEmail] = useState('dev-user1@yopmail.com');
   const [firstName, setFirstName] = useState('dev');
   const [lastName, setLastName] = useState('user1');
+  const [ loading, setLoading ] = useState(false);
 
   const handlePickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,13 +42,16 @@ export default function Page() {
       alert('Password dan konfirmasi password tidak cocok');
       return;
     }
+    setLoading(true);
     // Kirim data pendaftaran
     // contoh: fetch atau fungsi lain untuk mengirimkan data ke server
     const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName});
     console.log(response.status)
     if (response.status == 'FAILED') {
+      setLoading(false);
       alert(response.data);
     } else {
+      setLoading(false);
       alert('Pendaftaran berhasil!');
       router.replace('/sign-in');
     }
@@ -95,6 +100,7 @@ export default function Page() {
         </View>
       </View>
       </ScrollView>
+      <LoadingIndicator visible={loading} />
     </SafeAreaView>
   );
 }
