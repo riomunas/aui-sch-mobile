@@ -3,27 +3,40 @@ import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import color from '../../../config/colors';
 import { useAppContext } from '../../../context/app-context';
-import { router, useFocusEffect } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import LoadingIndicator from '../../../components/LoadingIndicator';
+import { axiosWithToken } from '../../../config/axios-withtoken-config';
 
 const ProfileScreen = () => {
+  const { userId } = useLocalSearchParams()
   const { onLogout } = useAppContext();
   const [ loading, setLoading ] = useState(false);
+  const [ dataUser, setDataUser] = useState(null);
+  const fetchData = axiosWithToken();
+  const {setData} = useAppContext(); 
 
   const logout = async () => {
     setLoading(true);
     const response = await onLogout();
     if (response.status == 'FAILED') {
-    setLoading(false);
-    alert(response.data);
+      setLoading(false);
+      alert(response.data);
     } else {
-    setLoading(false);
-    router.navigate('/');
+      setLoading(false);
+      router.navigate('/');
     }
   }
 
   const loadData = () => {
-    console.log('do something')
+    setLoading(true);
+    fetchData.get('/api/user/me').then(res => {
+      console.log(res.data.data)
+      setLoading(false);
+      setDataUser(res.data.data);
+      setData(res.data.data);
+    }).catch(err => {
+      setLoading(false);
+    })
   }
 
   useFocusEffect(
@@ -41,19 +54,19 @@ const ProfileScreen = () => {
       <View style={{borderColor:color.border, borderWidth: 0.7, borderRadius:10, backgroundColor: 'white'}}>
         <View style={{ padding:10, flexDirection: 'column', borderBottomWidth: 0.7, borderBottomColor: color.border }}>
           <Text style={styles.label}>Firstname: </Text>
-          <Text style={styles.infoText}>John</Text>
+          <Text style={styles.infoText}>{dataUser?.first_name}</Text>
         </View>
         <View style={{ padding:10, flexDirection: 'column', borderBottomWidth: 0.7, borderBottomColor: color.border }}>
           <Text style={styles.label}>Lastname: </Text>
-          <Text style={styles.infoText}>Doe</Text>
+          <Text style={styles.infoText}>{dataUser?.last_name}</Text>
         </View>
         <View style={{ padding:10, flexDirection: 'column', borderBottomWidth: 0.7, borderBottomColor: color.border }}>
           <Text style={styles.label}>Email: </Text>
-          <Text style={styles.infoText}>johndoe@example.com</Text>
+          <Text style={styles.infoText}>{dataUser?.email}</Text>
         </View>
         <View style={{ padding:10, flexDirection: 'column' }}>
           <Text style={styles.label}>Phone: </Text>
-          <Text style={styles.infoText}>123-456-7890</Text>
+          <Text style={styles.infoText}>{dataUser?.phone_number? dataUser.phone_number : '-'}</Text>
         </View>
       </View>
       <View style={{borderColor:color.border, borderWidth: 0.7, borderRadius:10, backgroundColor: 'white'}}>

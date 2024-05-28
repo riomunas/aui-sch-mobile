@@ -10,6 +10,7 @@ export const useAppContext = () => {
 
 export const AppContextProvider = ({ children }) => {
   const [token, setToken] = useState({accessToken:null, refreshToken:null, userId:null});
+  const [ data, setData ] = useState(null);
   const fetchData = axiosBase();
 
   const logout = async () => {
@@ -125,6 +126,6 @@ export const AppContextProvider = ({ children }) => {
   }
 
   return (
-    <AppContext.Provider value={{onLogin:login, onLogout:logout, onRegister:register, token, onCheck:cek}}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{onLogin:login, onLogout:logout, onRegister:register, token, onCheck:cek, data, setData}}>{children}</AppContext.Provider>
   );
 }

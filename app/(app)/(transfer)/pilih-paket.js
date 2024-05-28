@@ -1,11 +1,8 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { axiosWithToken } from "../../../config/axios-withtoken-config";
-import { SafeAreaView } from "react-native-safe-area-context";
-import PackageCard from '../../../components/PakageCard';
 import BottomBar from "../../../components/BottomBar";
-import Button from "../../../components/Button";
 import SelectablePackageItem from "../../../components/SelectablePackageItem";
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import color from "../../../config/colors";

@@ -1,4 +1,4 @@
-import { Image, Modal, StyleSheet, Text, View } from "react-native";
+import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAppContext } from "../context/app-context";
 import { Link, router } from "expo-router";
 import { useState } from "react";
@@ -8,12 +8,14 @@ import Button from "../components/Button";
 import { ActivityIndicator } from "react-native-paper";
 import color from "../config/colors";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Page() {
   const { onLogin, token } = useAppContext();
   const [ loading, setLoading ] = useState(false);
   const [ username, setUsername ] = useState('dev-user1');
   const [ password, setPassword ] = useState('Test123$'); 
+  const [ securePassword, setSecurePassword ] = useState(true);
   
   const login = async () => {
     setLoading(true);
@@ -44,7 +46,21 @@ export default function Page() {
         </View>
         <View style={{ marginBottom: 10 }}>
           <Text>Password :</Text>
-          <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} />
+          {/* <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} /> */}
+
+          <View style={{ 
+            height: 35, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth:0.7, borderColor: color.biru, borderRadius: 5, paddingHorizontal: 10}}>
+            <TextInput style={{flex: 1}}
+              placeholder="Enter your password"
+              secureTextEntry={securePassword}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            <Pressable onPress={() => setSecurePassword(!securePassword)}>
+              <Ionicons name={securePassword?"eye-off":"eye"} size={20} color={color.biru} />
+            </Pressable>
+
+          </View>
         </View>
         <View style={{ marginBottom: 10 }}>
           <Button onPress={login} >
