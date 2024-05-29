@@ -2,7 +2,6 @@ import axios from 'axios';
 import ENV from './env';
 
 export const axiosBase = (accessToken) => {
-  console.log(accessToken);
   const headers = {
     'Content-Type': 'application/json',
   //   'Authorization': `Bearer ${token.accessToken}`

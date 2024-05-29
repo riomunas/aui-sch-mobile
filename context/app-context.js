@@ -15,10 +15,8 @@ export const AppContextProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      console.log('>> logout : ')
 
       const decodedToken = jwtDecode(token.accessToken); // Mendekode token JWT untuk membaca informasi
-      console.log({decodedToken});
 
       const expirationTimeInSeconds = decodedToken.exp;
       const currentTimeInSeconds = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
@@ -27,7 +25,6 @@ export const AppContextProvider = ({ children }) => {
         // Token sudah kedaluwarsa
         // Alert.alert('Token Expired', 'Your Keycloak token has expired. Please log in again.');
 
-        console.log('Token is not valid.');
         setToken({
           accessToken:null, 
           refreshToken:null,
@@ -37,7 +34,6 @@ export const AppContextProvider = ({ children }) => {
         // Lakukan sesuatu di sini, seperti menghapus token dari penyimpanan atau mengarahkan pengguna ke halaman login
       } else {
         // Token masih valid
-        console.log('Token is still valid.');
       }
 
       const response = await fetchData.post('/api/user/logout', {
@@ -58,7 +54,6 @@ export const AppContextProvider = ({ children }) => {
 
       return response;
     } catch(error) {
-      console.log(error)
       return error.response.data;
     }
   }
@@ -81,12 +76,10 @@ export const AppContextProvider = ({ children }) => {
 
       return response;
     } catch(error) {
-      console.log(error.response);
       try {
         const jsonMatch = error.response.data.data.match(/\{.*\}/);
         if (jsonMatch) {
           const parsedData = JSON.parse(jsonMatch[0]);
-          console.log(parsedData.error_description);
           return {status:'FAILED', data: parsedData.error_description};
         } else {
           return {status:'FAILED', data: error.message};
@@ -98,7 +91,6 @@ export const AppContextProvider = ({ children }) => {
   }
 
   const register = async(user) => {
-    console.log({user});
     try {
       const response = await fetchData.post('/pub/user/register', {
         username: user.username,
@@ -122,7 +114,6 @@ export const AppContextProvider = ({ children }) => {
   }
 
   const cek = async () => {
-    console.log({token});
   }
 
   return (

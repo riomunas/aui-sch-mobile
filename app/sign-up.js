@@ -6,17 +6,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import LoadingIndicator from "../components/LoadingIndicator";
+import { Ionicons } from "@expo/vector-icons";
+import color from '../config/colors';
 
 export default function Page() {
   const { onRegister } = useAppContext();
   
-  const [username, setUsername] = useState('dev-user1');
-  const [password, setPassword] = useState('Test123$');
-  const [rePassword, setRePassword] = useState('Test123$');
-  const [email, setEmail] = useState('dev-user1@yopmail.com');
-  const [firstName, setFirstName] = useState('dev');
-  const [lastName, setLastName] = useState('user1');
+  const [ username, setUsername ] = useState(null);
+  const [ password, setPassword ] = useState(null);
+  const [ rePassword, setRePassword ] = useState(null);
+  const [ email, setEmail ] = useState(null);
+  const [ firstName, setFirstName ] = useState(null);
+  const [ lastName, setLastName ] = useState(null);
   const [ loading, setLoading ] = useState(false);
+  const [ securePassword, setSecurePassword ] = useState(true);
 
   const handlePickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -37,7 +40,6 @@ export default function Page() {
       alert('Mohon lengkapi semua inputan');
       return;
     }
-    console.log('>> sini ?')
     if (password !== rePassword) {
       alert('Password dan konfirmasi password tidak cocok');
       return;
@@ -46,7 +48,6 @@ export default function Page() {
     // Kirim data pendaftaran
     // contoh: fetch atau fungsi lain untuk mengirimkan data ke server
     const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName});
-    console.log(response.status)
     if (response.status == 'FAILED') {
       setLoading(false);
       alert(response.data);
@@ -75,11 +76,34 @@ export default function Page() {
         </View>
         <View style={{ marginBottom: 10 }}>
           <Text>Password :</Text>
-          <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} />
+          <View style={{ 
+            height: 35, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth:0.7, borderColor: color.biru, borderRadius: 5, paddingHorizontal: 10}}>
+            <TextInput style={{flex: 1}}
+              placeholder="Enter your password"
+              secureTextEntry={securePassword}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            <Pressable onPress={() => setSecurePassword(!securePassword)}>
+              <Ionicons name={securePassword?"eye-off":"eye"} size={20} color={color.biru} />
+            </Pressable>
+          </View>
         </View>
         <View style={{ marginBottom: 10 }}>
           <Text>Re-Password :</Text>
-          <Input placeholder="Re-Password" secureTextEntry onChangeText={(text) => setRePassword(text)} value={rePassword} />
+          {/* <Input placeholder="Re-Password" secureTextEntry onChangeText={(text) => setRePassword(text)} value={rePassword} /> */}
+          <View style={{ 
+            height: 35, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth:0.7, borderColor: color.biru, borderRadius: 5, paddingHorizontal: 10}}>
+            <TextInput style={{flex: 1}}
+              placeholder="Enter your password"
+              secureTextEntry={securePassword}
+              value={rePassword}
+              onChangeText={(text) => setRePassword(text)}
+            />
+            <Pressable onPress={() => setSecurePassword(!securePassword)}>
+              <Ionicons name={securePassword?"eye-off":"eye"} size={20} color={color.biru} />
+            </Pressable>
+          </View>
         </View>
         <View style={{ marginBottom: 10, }}>
           <Text>E-Mail :</Text>

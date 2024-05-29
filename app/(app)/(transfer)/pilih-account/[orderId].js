@@ -7,7 +7,7 @@ import LoadingIndicator from "../../../../components/LoadingIndicator";
 
 
 export default function Page() {
-  const [ accountId, setAccountId ] = useState('9911cad7-e96a-427a-a917-6bb780578e20');
+  const [ accountId, setAccountId ] = useState(null);
   const [ loading, setLoading ] = useState(false);
   const { orderId } = useLocalSearchParams();
 

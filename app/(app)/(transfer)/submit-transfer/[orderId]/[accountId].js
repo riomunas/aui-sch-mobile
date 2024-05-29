@@ -45,7 +45,6 @@ export default function Page() {
     setLoading(true);
     fetchData.post(`/api/transaction/transfer/${orderId}/${accountId}`)
     .then((res) => {
-      console.log(">>res ", res);
       setLoading(false);
       router.navigate('/');
     }).catch(err => {

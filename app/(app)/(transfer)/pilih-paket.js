@@ -24,7 +24,6 @@ export default function Page() {
     fetchData
     .get('/api/paket/my-paket')
     .then(res => {
-      console.log(res.data.data);
       setLoading(false);
       setPaketData(res.data.data);  
     })
@@ -67,7 +66,6 @@ export default function Page() {
         btnTitle={"Pilih"}
         packageName={selectedPaket?.name} 
         totalPrice={selectedPaket? formatterUang.format(selectedPaket.current_price) : 0} 
-        onPressPay={() => console.log('Pay')} 
         isVisible={selectedPaket !== null} 
         onPress={() => {
             router.push({

@@ -21,7 +21,6 @@ export default function EditUser() {
     fetchData.get('/api/user/me').then(res => {
       setLoading(false);
       setDataUser(res.data.data);
-      console.log(res.data.data)
     }).catch(err => {
       setLoading(false);
     })

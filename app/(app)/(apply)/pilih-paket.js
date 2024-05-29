@@ -62,7 +62,6 @@ export default function Page() {
       <BottomBar 
         packageName={selectedPaket?.name} 
         totalPrice={selectedPaket? formatterUang.format(selectedPaket.price) : 0} 
-        onPressPay={() => console.log('Pay')} 
         isVisible={selectedPaket !== null} 
         onPress={() => {
             router.push({

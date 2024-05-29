@@ -27,7 +27,6 @@ export default function Page() {
     //data paket
     fetchData.get(`/api/paket/my-paket/${orderId}`)
     .then(res => {
-      console.log(res.data.data);
 
       setDataPaket(res.data.data);
       
@@ -42,7 +41,6 @@ export default function Page() {
     setLoading(true);
     fetchData.post(`/api/transaction/claim/${orderId}`)
     .then((res) => {
-      console.log(">>res ", res);
       setLoading(false);
       router.navigate('/');
     }).catch(err => {

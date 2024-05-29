@@ -5,7 +5,6 @@ import { AppContextProvider } from '../context/app-context'
 import { PaperProvider } from 'react-native-paper'
 
 export default function RootLayout() {
-  console.log(">> RootLayout")
   return (
     <AppContextProvider>
       <Stack screenOptions={{ headerShown: false }}>

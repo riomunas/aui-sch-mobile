@@ -27,7 +27,6 @@ export default function EditUser() {
   }, [password, rePassword]);
 
   const ubahPassword = () => {
-    console.log(password, rePassword);
     if (password == rePassword) {
       setLoading(true);
       fetchData.post('/api/user/update-password', {

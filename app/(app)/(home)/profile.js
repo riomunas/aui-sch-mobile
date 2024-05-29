@@ -30,7 +30,6 @@ const ProfileScreen = () => {
   const loadData = () => {
     setLoading(true);
     fetchData.get('/api/user/me').then(res => {
-      console.log(res.data.data)
       setLoading(false);
       setDataUser(res.data.data);
       setData(res.data.data);

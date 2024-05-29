@@ -9,12 +9,13 @@ import { ActivityIndicator } from "react-native-paper";
 import color from "../config/colors";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { Ionicons } from "@expo/vector-icons";
+import ModalComponent from '../components/ModalComponent';
 
 export default function Page() {
   const { onLogin, token } = useAppContext();
   const [ loading, setLoading ] = useState(false);
-  const [ username, setUsername ] = useState('dev-user1');
-  const [ password, setPassword ] = useState('Test123$'); 
+  const [ username, setUsername ] = useState(null);
+  const [ password, setPassword ] = useState(null); 
   const [ securePassword, setSecurePassword ] = useState(true);
   
   const login = async () => {
@@ -46,12 +47,11 @@ export default function Page() {
         </View>
         <View style={{ marginBottom: 10 }}>
           <Text>Password :</Text>
-          {/* <Input placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password} /> */}
-
           <View style={{ 
             height: 35, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth:0.7, borderColor: color.biru, borderRadius: 5, paddingHorizontal: 10}}>
             <TextInput style={{flex: 1}}
               placeholder="Enter your password"
+              placeholderTextColor='#aaa'
               secureTextEntry={securePassword}
               value={password}
               onChangeText={(text) => setPassword(text)}

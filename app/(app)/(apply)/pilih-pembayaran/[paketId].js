@@ -15,7 +15,6 @@ export default function Page() {
   const loadData = () => {
     setLoading(true);
     fetchData.post(`/api/snap/checkout/${paketId}`).then(res => {
-      console.log(res.data);
       setSnapToken(res.data.data.token);
       setOrderId(res.data.data.order_id);
       setLoading(false);
@@ -24,7 +23,6 @@ export default function Page() {
 
   const cancelOrder = (orderId) => {
     setLoading(true);
-    console.log('Cancel ', orderId);
     fetchData.post(`/api/midtrans/cancel/${orderId}`)
     .then(() => {
       setLoading(false);
@@ -88,7 +86,6 @@ export default function Page() {
           onMessage={(event) => {
             try {
               const data = JSON.parse(event.nativeEvent.data);
-              console.log(data.event)
 
               switch (data.event) {
                 case 'onSuccess':
