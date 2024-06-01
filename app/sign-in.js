@@ -1,15 +1,14 @@
-import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAppContext } from "../context/app-context";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { ActivityIndicator } from "react-native-paper";
 import color from "../config/colors";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { Ionicons } from "@expo/vector-icons";
-import ModalComponent from '../components/ModalComponent';
+import { Image } from "expo-image";
 
 export default function Page() {
   const { onLogin, token } = useAppContext();
@@ -39,7 +38,7 @@ export default function Page() {
           <Text style={styles.subtitle}>Please put your cridential correctly.</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-          <Image source={require('../assets/ico.png')} style={{ width: 150, height: 150}} />
+          <Image source='https://asean-university.com/wp-content/uploads/2024/04/logo.png' contentFit="contain" style={{ width: 150, height: 150}} />
         </View>
         <View style={{ marginBottom: 10, }}>
           <Text>User Name :</Text>
@@ -69,28 +68,10 @@ export default function Page() {
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <Text>Not Registered?</Text> 
-          <Link style={{ color: '#2196f3' }} push href={"/sign-up"}> Sign Up</Link>
+          <Link style={{ color: color.biru, fontWeight: 'bold' }} push href={"/sign-up"}> Sign Up</Link>
         </View>
 
         <LoadingIndicator visible={loading} />
-
-        {/* Modal untuk menampilkan pesan loading */}
-        {/* <Modal
-          animationType="fade"
-          transparent={true}
-          visible={loading?true:false}
-          onRequestClose={() => {
-            // Handle jika modal ditutup
-            // setModalVisible(false);
-          }}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-              <ActivityIndicator color={color.biru} />
-              <Text style={{ marginTop: 10 }}>Logging in...</Text>
-            </View>
-          </View>
-        </Modal> */}
       </View>
     </SafeAreaView>
   );

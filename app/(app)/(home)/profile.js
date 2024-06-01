@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import color from '../../../config/colors';
 import { useAppContext } from '../../../context/app-context';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import { axiosWithToken } from '../../../config/axios-withtoken-config';
+import { Image } from 'expo-image';
 
 const ProfileScreen = () => {
   const { userId } = useLocalSearchParams()
@@ -48,7 +49,7 @@ const ProfileScreen = () => {
   return (
     <View style={{flex: 1, padding: 10, justifyContent: 'flex-start', gap:10}}>
       <View style={{ alignItems: 'center' }}>
-        <Image source={require('../../../assets/user.png')} style={styles.profileImage} />
+        <Image source={dataUser?.photo_url ? dataUser.photo_url : require('../../../assets/user.png')} style={styles.profileImage} />
       </View>
       <View style={{borderColor:color.border, borderWidth: 0.7, borderRadius:10, backgroundColor: 'white'}}>
         <View style={{ padding:10, flexDirection: 'column', borderBottomWidth: 0.7, borderBottomColor: color.border }}>

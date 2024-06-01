@@ -1,6 +1,7 @@
+import { Image } from 'expo-image';
 import moment from 'moment';
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 const MemberCard = ({ data }) => {
 
@@ -18,7 +19,7 @@ const MemberCard = ({ data }) => {
             <Text style={{color: '#A6ACB9',fontSize: 14,marginBottom: 5,}}>{data?.email}</Text>
             {/* <Text style={{color: '#A6ACB9',fontSize: 14,}}>tanggal_daftar</Text> */}
           </View>
-          <Image source={require('../assets/user.png')} style={{width: 100,height: 100,borderRadius: 50,marginRight: 20,}} />
+          <Image source={data?.photo_url ? data.photo_url : require('../assets/user.png')} style={{width: 100,height: 100,borderRadius: 50,marginRight: 20,}} />
         </View>
       </View>
       <View style={{ borderBottomLeftRadius:10, borderBottomRightRadius:10, padding:10, backgroundColor:'#ffffff18', alignItems:'center'}}><Text style={{fontFamily: 'monospace', fontSize:14, color:'white'}}>{data?.id}</Text></View>

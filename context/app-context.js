@@ -100,6 +100,7 @@ export const AppContextProvider = ({ children }) => {
         lastName: user.lastName,
         emailVerified: false,
         enabled: true,
+        photoBase64: user.photoBase64,
         credentials:[{
           temporary: false,
           type: 'password',

@@ -1,18 +1,27 @@
-import { View, Text, Image, StyleSheet, TextInput, Pressable } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Pressable, Modal } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react';
 import { router, useFocusEffect, useLocalSearchParams, useNavigation } from 'expo-router'
 import color from '../../../../config/colors';
 import { axiosWithToken } from '../../../../config/axios-withtoken-config';
 import LoadingIndicator from '../../../../components/LoadingIndicator';
 import { useAppContext } from '../../../../context/app-context';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
+import { Image } from 'expo-image';
+import { CameraView } from 'expo-camera';
+import { useCameraPermissions } from 'expo-camera';
 
 export default function EditUser() {
   const fetchData = axiosWithToken();
   const [ dataUser, setDataUser ] = useState(null);
   const [ loading, setLoading ] = useState(false);
+
+  const [ permission, requestPermission ] = useCameraPermissions();
+  const [ showCamera, setShowCamera ] = useState(false);
+  const [ cameraRedy, setCameraRedy ] = useState(false);
+  const [ cameraRef, setCameraRef ] = useState(null);
+  const [ picData, setPicData ] = useState(null);
 
   const nav = useNavigation();
 
@@ -37,6 +46,15 @@ export default function EditUser() {
     })
   }
 
+  const takePicture = async () => {
+    cameraRef.takePictureAsync({base64:true}).then((data) => {
+      setPicData(data);
+      dataUser.photo_base64 = data.base64;
+      setDataUser(dataUser);
+      setShowCamera(false);
+    })
+  };
+
   useEffect((dataUser) => {
     nav.setOptions({
       headerTitle: 'Edit Profiles',
@@ -57,8 +75,22 @@ export default function EditUser() {
   return (
     <View style={{flex: 1, padding: 10, justifyContent: 'flex-start', gap:10}}>
       <LoadingIndicator visible={loading} />
+      <Modal visible={showCamera}>
+        <CameraView style={{ flex: 1, justifyContent: 'flex-end' , alignItems: 'center'}}
+          ref={setCameraRef}
+          onCameraReady={() => setCameraRedy(true)}
+          facing='front'>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
+            <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={takePicture}>
+              <Ionicons name="camera" size={36} color="white" />
+            </Pressable>
+          </View>
+        </CameraView>
+      </Modal>
       <View style={{ alignItems: 'center' }}>
-        <Image source={require('../../../../assets/user.png')} style={styles.profileImage} />
+        <Pressable onPress={() => setShowCamera(true)}>
+          <Image source={picData?.uri ? picData.uri : ( dataUser?.photo_url ? dataUser.photo_url : require('../../../../assets/user.png'))} style={styles.profileImage} />
+        </Pressable>
       </View>
       <View style={{borderColor:color.border, borderWidth: 0.7, borderRadius:10, backgroundColor: 'white'}}>
         <View style={{ padding:10, flexDirection: 'column', borderBottomWidth: 0.7, borderBottomColor: color.border }}>
