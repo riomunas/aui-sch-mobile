@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import color from '../config/colors';
 import { Camera, CameraView, useCameraPermissions } from "expo-camera";
 
+
 export default function Page() {
   const { onRegister } = useAppContext();
   
@@ -38,23 +39,23 @@ export default function Page() {
   const register = async () => {
     // Lakukan validasi data di sini sebelum mengirimkan data pendaftaran
     if (!username || !password || !rePassword || !email || !firstName || !lastName) {
-      alert('Mohon lengkapi semua inputan');
+      alert('Please complete all inputs');
       return;
     }
     if (password !== rePassword) {
-      alert('Password dan konfirmasi password tidak cocok');
+      alert('The password and password confirmation do not match');
       return;
     }
     setLoading(true);
     // Kirim data pendaftaran
     // contoh: fetch atau fungsi lain untuk mengirimkan data ke server
-    const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName, photoBase64:picData.base64});
+    const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName, photoBase64:picData?.base64});
     if (response.status == 'FAILED') {
       setLoading(false);
       alert(response.data);
     } else {
       setLoading(false);
-      alert('Pendaftaran berhasil!');
+      alert('Registration successful');
       router.replace('/sign-in');
     }
   };
@@ -65,22 +66,32 @@ export default function Page() {
       <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{ flexDirection: 'column', flex:1, justifyContent: 'center'}}>
         
-        <Modal visible={showCamera}>
-          <CameraView style={{ flex: 1, justifyContent: 'flex-end' , alignItems: 'center'}}
+        <Modal visible={permission?.granted && showCamera}>
+          <CameraView style={{ flex: 1, justifyContent: 'space-between' }}
             ref={setCameraRef}
             onCameraReady={() => setCameraRedy(true)}
             facing='front'>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
-              <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={takePicture}>
-                <Ionicons name="camera" size={36} color="white" />
-              </Pressable>
-            </View>
+              <View style={{ padding: 15 }}>
+                <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={() => setShowCamera(false)}>
+                  <Ionicons name="close" size={36} color="white" />
+                </Pressable>
+              </View>
+              <View style= {{alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
+                  <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={takePicture}>
+                    <Ionicons name="camera" size={36} color="white" />
+                  </Pressable>
+                </View>
+              </View>
           </CameraView>
         </Modal>
 
         <View style={styles.main}>
           <View style={{ alignItems: 'center' }}>
-            <Pressable onPress={() => setShowCamera(true)}>
+            <Pressable onPress={() => {
+                setShowCamera(true)
+                requestPermission()
+              }}>
               <Image source={picData ? {uri: picData?.uri} : require('../assets/user.png')} style={{width: 120, height:120, borderRadius: 100, marginVertical: 30}} />
             </Pressable>
           </View>

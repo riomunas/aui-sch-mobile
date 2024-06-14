@@ -16,29 +16,36 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aui.scholarship"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/ico.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.aui.scholarship"
+      "package": "com.aui.scholarship",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/ico.png"
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      "expo-camera"
     ],
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "72b85403-1fbe-44f5-a672-3186fe0fad8a"
+        "projectId": "e3ff7123-a156-4812-bf86-a307b98d0009"
       }
-    }
+    },
+    "owner": "dev.asean-university"
   }
 }

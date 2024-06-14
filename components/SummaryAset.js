@@ -8,10 +8,10 @@ const SummaryAset = ({ data }) => {
     <View>
       <View style={styles.containerBawah}>
         <View style={styles.userInfo}>
-          <Text style={styles.email}>Total Aset :</Text>
+          <Text style={styles.text}>Total Aset :</Text>
         </View>
           <View style={styles.userInfo}>
-          <Text style={{...styles.name, textAlign:'right'}}>{data}</Text>
+          <Text style={{...styles.text, ...styles.name, textAlign:'right'}}>{data}</Text>
         </View>
       </View>
     </View>
@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     // marginBottom: 5,
   },
-  email: {
+  text: {
     fontSize: 16,
-    color: '#666666',
+    color: color.biru
   },
 });
 
