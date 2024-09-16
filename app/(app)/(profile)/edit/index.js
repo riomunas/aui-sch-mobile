@@ -11,6 +11,7 @@ import Button from '../../../../components/Button';
 import { Image } from 'expo-image';
 import { CameraView } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 export default function EditUser() {
   const fetchData = axiosWithToken();
@@ -45,16 +46,30 @@ export default function EditUser() {
       alert(err.message);
     })
   }
-
+  
   const takePicture = async () => {
     try {
-      cameraRef.takePictureAsync({base64:true}).then((data) => {
-        setPicData(data);
-        dataUser.photo_base64 = data.base64;
-        setDataUser(dataUser);
-        setShowCamera(false);
-      })
-    } catch(e) {
+      // Ambil gambar dengan kamera
+      const picture = await cameraRef.takePictureAsync({ base64: true });
+      
+  
+      // Manipulasi gambar dengan expo-image-manipulator
+      const manipResult = await ImageManipulator.manipulateAsync(
+        picture.uri,
+        [{ resize: { width: 800 } }], // Mengubah ukuran gambar, atur lebar sesuai kebutuhan
+        { base64:true, compress: 0.8, format: ImageManipulator.SaveFormat.JPEG } // Atur kompresi dan format
+      );
+  
+      // Set data gambar yang sudah dimanipulasi
+      setPicData({
+        uri: manipResult.uri,
+        base64: manipResult.base64,
+      });
+      dataUser.photo_base64 = manipResult.base64;
+      setDataUser(dataUser);
+      setShowCamera(false);
+  
+    } catch (e) {
       console.log(">> error : ", e);
     }
   };

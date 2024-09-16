@@ -38,6 +38,7 @@ export function Page() {
           setDataUser(res.data.data.user)
           setDataTotalAset(res.data.data.total_aset)
         }).catch(error => {
+          setLoading(false);
           // Handle error
           console.log('Request failed:', error);
         });
