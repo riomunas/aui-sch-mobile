@@ -15,10 +15,10 @@ const MemberCard = ({ data }) => {
 
   return (
     <View style={{ height:220, borderRadius:10, minHeight:150, position: 'relative'}}>
-      <Image style={{ flex: 1, borderRadius:10, resizeMode: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../assets/card-3.png')}/>
+      <Image style={{ flex: 1, borderRadius:10, contentFit: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../assets/card-3.png')}/>
       <View style={{ padding:15, flex:1, gap:10}}>
         <View style={{ margin:0, flexDirection:'row', justifyContent:'space-between'}}>
-          <Image source={require('../assets/ico1.png')} style={{ width: 50, height: 33}} />
+          <Image source={require('../assets/ico.png')} style={{ width: 70, height: 44}} />
           <Text style={{color:'#aaa', fontSize:14}}>{moment(data?.created_at).format('DD MMMM YYYY')}</Text>
         </View>
         <View style={{ flex:1,  padding:0, flexDirection:'row', alignItems:'center'}}>
@@ -33,7 +33,7 @@ const MemberCard = ({ data }) => {
       <View style={{ flexDirection:'row', justifyContent:'center', borderBottomLeftRadius:10, borderBottomRightRadius:10, padding:10, backgroundColor:'#ffffff18', alignItems:'center'}}>
         {!accountIdCopied && (
           <>
-            <Text style={{ fontFamily: 'monospace', fontSize:16, color:'white'}}>{data?.id}</Text>
+            <Text style={{ fontFamily: 'monospace', fontSize:14, color:'white'}}>{data?.id}</Text>
             <Pressable onPress={() => {
               copyToClipboard(data?.id);
               setAccountIdCopied(true);

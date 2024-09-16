@@ -32,7 +32,9 @@ export default function Page() {
       
       setLoading(false);
     }).catch(err => {
-      setErrorMessage(err.response.data.data)
+      if (err.response.data) {
+        setErrorMessage(err.response.data.data)
+      }
       setLoading(false);
     })
   }

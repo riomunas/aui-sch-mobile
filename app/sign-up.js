@@ -30,33 +30,41 @@ export default function Page() {
   const [ picData, setPicData ] = useState(null);
 
   const takePicture = async () => {
-    cameraRef.takePictureAsync({base64:true}).then((data) => {
-      setPicData(data);
-      setShowCamera(false);
-    })
+    try {
+      cameraRef.takePictureAsync({base64:true}).then((data) => {
+        setPicData(data);
+        setShowCamera(false);
+      })
+    } catch (e) {
+      console.log(">> errro : ", e);
+    }
   };
 
   const register = async () => {
-    // Lakukan validasi data di sini sebelum mengirimkan data pendaftaran
-    if (!username || !password || !rePassword || !email || !firstName || !lastName) {
-      alert('Please complete all inputs');
-      return;
-    }
-    if (password !== rePassword) {
-      alert('The password and password confirmation do not match');
-      return;
-    }
-    setLoading(true);
-    // Kirim data pendaftaran
-    // contoh: fetch atau fungsi lain untuk mengirimkan data ke server
-    const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName, photoBase64:picData?.base64});
-    if (response.status == 'FAILED') {
-      setLoading(false);
-      alert(response.data);
-    } else {
-      setLoading(false);
-      alert('Registration successful');
-      router.replace('/sign-in');
+    try {
+      // Lakukan validasi data di sini sebelum mengirimkan data pendaftaran
+      if (!username || !password || !rePassword || !email || !firstName || !lastName) {
+        alert('Please complete all inputs');
+        return;
+      }
+      if (password !== rePassword) {
+        alert('The password and password confirmation do not match');
+        return;
+      }
+      setLoading(true);
+      // Kirim data pendaftaran
+      // contoh: fetch atau fungsi lain untuk mengirimkan data ke server
+      const response = await onRegister({username:username, password:password, email:email, firstName:firstName, lastName:lastName, photoBase64:picData?.base64});
+      if (response.status == 'FAILED') {
+        setLoading(false);
+        alert(response.data);
+      } else {
+        setLoading(false);
+        alert('Registration successful');
+        router.replace('/sign-in');
+      }
+    } catch (e) {
+      console.log(">> errro : ", e);
     }
   };
 

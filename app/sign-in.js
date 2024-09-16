@@ -18,15 +18,19 @@ export default function Page() {
   const [ securePassword, setSecurePassword ] = useState(true);
   
   const login = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const response = await onLogin(username, password);
-    if (response.status == 'FAILED') {
-      setLoading(false);
-      alert(response.data);
-    } else {
-      setLoading(false);
-      router.replace('/');
+      const response = await onLogin(username, password);
+      if (response.status == 'FAILED') {
+        setLoading(false);
+        alert(response.data);
+      } else {
+        setLoading(false);
+        router.replace('/');
+      }
+    } catch (e) {
+      console.log(">> errro : ", e);
     }
   }
 
@@ -38,7 +42,7 @@ export default function Page() {
           <Text style={styles.subtitle}>Please put your cridential correctly.</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-          <Image source='https://asean-university.com/wp-content/uploads/2024/04/logo.png' contentFit="contain" style={{ width: 150, height: 150}} />
+          <Image source={require('../assets/ico.png')} contentFit="contain" style={{ width: 150, height: 150}} />
         </View>
         <View style={{ marginBottom: 10, }}>
           <Text>User Name :</Text>

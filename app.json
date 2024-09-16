@@ -9,8 +9,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-screen.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#1E1E1E"
+      "contentFit": "contain",
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"

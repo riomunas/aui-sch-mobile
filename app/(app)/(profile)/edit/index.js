@@ -47,12 +47,16 @@ export default function EditUser() {
   }
 
   const takePicture = async () => {
-    cameraRef.takePictureAsync({base64:true}).then((data) => {
-      setPicData(data);
-      dataUser.photo_base64 = data.base64;
-      setDataUser(dataUser);
-      setShowCamera(false);
-    })
+    try {
+      cameraRef.takePictureAsync({base64:true}).then((data) => {
+        setPicData(data);
+        dataUser.photo_base64 = data.base64;
+        setDataUser(dataUser);
+        setShowCamera(false);
+      })
+    } catch(e) {
+      console.log(">> error : ", e);
+    }
   };
 
   useEffect((dataUser) => {
@@ -75,20 +79,35 @@ export default function EditUser() {
   return (
     <View style={{flex: 1, padding: 10, justifyContent: 'flex-start', gap:10}}>
       <LoadingIndicator visible={loading} />
-      <Modal visible={showCamera}>
+      <Modal visible={permission?.granted && showCamera}>
         <CameraView style={{ flex: 1, justifyContent: 'flex-end' , alignItems: 'center'}}
           ref={setCameraRef}
           onCameraReady={() => setCameraRedy(true)}
           facing='front'>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
+          <View style={{ padding: 15 }}>
+            <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={() => setShowCamera(false)}>
+              <Ionicons name="close" size={36} color="white" />
+            </Pressable>
+          </View>
+          <View style= {{alignItems: 'center', }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
+              <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={takePicture}>
+                <Ionicons name="camera" size={36} color="white" />
+              </Pressable>
+            </View>
+          </View>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 15, marginBottom: 20, backgroundColor:'#ffffff42', borderRadius:50 }}>
             <Pressable style={({ pressed }) => [pressed && {opacity:0.7}]} onPress={takePicture}>
               <Ionicons name="camera" size={36} color="white" />
             </Pressable>
-          </View>
+          </View> */}
         </CameraView>
       </Modal>
       <View style={{ alignItems: 'center' }}>
-        <Pressable onPress={() => setShowCamera(true)}>
+        <Pressable onPress={() => {
+            setShowCamera(true);
+            requestPermission()
+          }}>
           <Image source={picData?.uri ? picData.uri : ( dataUser?.photo_url ? dataUser.photo_url : require('../../../../assets/user.png'))} style={styles.profileImage} />
         </Pressable>
       </View>

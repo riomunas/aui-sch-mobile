@@ -6,7 +6,7 @@ import color from '../config/colors';
 const SelectablePackageItem = ({ date, packageName, price, isSelected, isSelectable }) => {
   return (
     <View style={[styles.container]}>
-      <Image style={{ flex: 1, borderRadius:10, resizeMode: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../assets/card-1.png')}/>
+      <Image style={{ flex: 1, borderRadius:10, contentFit: 'cover', position: 'absolute', width: '100%', height: '100%', }} source={require('../assets/card-1.png')}/>
       <View style={[styles.row, styles.middleRow]}>
         <Ionicons name="cube-outline" size={30} color='white' style={styles.icon} />
         <Text style={styles.packageName}>{packageName}</Text>

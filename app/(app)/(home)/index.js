@@ -29,13 +29,18 @@ export function Page() {
 
   const loadData = () => {
     setLoading(true);
-    fetctData.get('/api/dashboard').then(res => {
-      setLoading(false);
-      setData(res.data.data);
-      setDataPaket(res.data.data.paket)
-      setDataUser(res.data.data.user)
-      setDataTotalAset(res.data.data.total_aset)
-    });
+    fetctData
+      .get('/api/dashboard')
+        .then(res => {
+          setLoading(false);
+          setData(res.data.data);
+          setDataPaket(res.data.data.paket)
+          setDataUser(res.data.data.user)
+          setDataTotalAset(res.data.data.total_aset)
+        }).catch(error => {
+          // Handle error
+          console.log('Request failed:', error);
+        });
   }
 
   useFocusEffect(

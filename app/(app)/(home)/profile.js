@@ -17,14 +17,18 @@ const ProfileScreen = () => {
   const {setData} = useAppContext(); 
 
   const logout = async () => {
-    setLoading(true);
-    const response = await onLogout();
-    if (response.status == 'FAILED') {
-      setLoading(false);
-      alert(response.data);
-    } else {
-      setLoading(false);
-      router.navigate('/');
+    try {
+      setLoading(true);
+      const response = await onLogout();
+      if (response.status == 'FAILED') {
+        setLoading(false);
+        alert(response.data);
+      } else {
+        setLoading(false);
+        router.navigate('/');
+      }
+    } catch (e) {
+      log.info(">> error : ", e)
     }
   }
 

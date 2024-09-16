@@ -26,7 +26,10 @@ export default function Page() {
     .then(res => {
       setLoading(false);
       setPaketData(res.data.data);  
-    })
+    }).catch(error => {
+      // Handle error
+      console.log('Request failed:', error);
+    });
   }
 
   useEffect(() => {

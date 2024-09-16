@@ -18,16 +18,23 @@ export default function Page() {
       setSnapToken(res.data.data.token);
       setOrderId(res.data.data.order_id);
       setLoading(false);
-    })
+    }).catch(error => {
+      // Handle error
+      console.log('Request failed:', error);
+    });
   }
 
   const cancelOrder = (orderId) => {
+    console.log(">> cancelOrder : ", orderId);
     setLoading(true);
     fetchData.post(`/api/midtrans/cancel/${orderId}`)
     .then(() => {
       setLoading(false);
       router.back();
-    })
+    }).catch(error => {
+      // Handle error
+      console.log('Request failed:', error);
+    });
   }
 
   useEffect(() => {
